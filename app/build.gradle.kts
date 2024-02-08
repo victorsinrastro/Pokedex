@@ -45,5 +45,8 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation ("org.mockito:mockito-core:3.12.4")
 }
