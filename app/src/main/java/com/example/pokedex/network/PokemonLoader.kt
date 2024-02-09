@@ -5,9 +5,10 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+private const val URL_BASE = "https://pokeapi.co/api/v2/"
 class PokemonLoader : PokemonAPI {
     private val pokemonApi: PokemonAPI
-    private final val URL_BASE = "https://pokeapi.co/api/v2/"
+
 
     init {
         val retrofit = Retrofit.Builder()
@@ -19,6 +20,7 @@ class PokemonLoader : PokemonAPI {
     }
 
     override fun getPokemonList(): Call<PokemonListResponse> {
+
         return pokemonApi.getPokemonList()
     }
 }
