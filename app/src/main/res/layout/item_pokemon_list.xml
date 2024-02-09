@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="pokemon"
+            type="com.example.pokedex.network.models.Pokemon" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/lateral_margin"
+        android:layout_marginTop="@dimen/vertical_margin"
+        android:layout_marginRight="@dimen/lateral_margin"
+        android:layout_marginBottom="@dimen/vertical_margin">
+
+        <LinearLayout
+            android:id="@+id/linear_layout_pokemon_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:weightSum="100">
+
+            <TextView
+                android:id="@+id/text_view_pokemon_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="90"
+                android:text="@{pokemon.name}"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btPokemonDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:text="@string/delete" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

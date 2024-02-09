@@ -1,14 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-         />
+    <data>
 
-</LinearLayout>
+        <import type="android.view.View" />
+        <!-- Define a variable for the ProgressBar visibility -->
+        <variable
+            name="progressBarVisibility"
+            type="Boolean" />
+
+        <!-- Define a variable for the RecyclerView adapter -->
+        <variable
+            name="pokemonAdapter"
+            type="com.example.pokedex.pokemon.PokemonAdapter" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{progressBarVisibility ? View.VISIBLE : View.GONE}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPokemonList"
+            app:adapter="@{pokemonAdapter}"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+</layout>
