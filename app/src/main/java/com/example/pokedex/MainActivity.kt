@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 response: Response<PokemonListResponse>
             ) {
                 binding.progressBarVisibility = false
-                val pokemonList: List<Pokemon> = response.body()!!.getPokemonList()
+                val pokemonList: List<Pokemon> = response.body()!!.pokemonList
                 val adapter = PokemonAdapter(pokemonList)
                 binding.pokemonAdapter = adapter
                 binding.recyclerViewPokemonList.setHasFixedSize(true)
