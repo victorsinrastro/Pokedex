@@ -19,6 +19,11 @@ class PokedexDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_pokedex_detail)
+
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val pokemonId = intent.getStringExtra(Constants.POKEMON_ID) ?: ""
         val call = loader.getPokemonById(pokemonId)
 
@@ -48,5 +53,10 @@ class PokedexDetailActivity : AppCompatActivity() {
                 ).show()
             }
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressedDispatcher.onBackPressed()
+        return true
     }
 }
