@@ -1,8 +1,8 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Pokedex</string>
     <string name="default_pokemon_name">POKEMON</string>
     <string name="delete">DELETE</string>
     <string name="pokemon_image">Pokemon image</string>
     <string name="pokemon_weight">Weight: %d kg</string>
-    <string name="pokemon_height">Height: %d cm</string>
+    <string name="pokemon_height">Height: %d m</string>
 </resources>

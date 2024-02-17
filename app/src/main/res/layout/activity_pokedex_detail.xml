@@ -1,52 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="pokemon"
             type="com.example.pokedex.network.models.PokemonByIdResponse" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:elevation="4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:titleTextColor="@android:color/white"
+            tools:layout_editor_absoluteX="-16dp" />
 
         <ImageView
             android:id="@+id/image_view_pokemon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/pokemon_image" />
+            android:contentDescription="@string/pokemon_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            tools:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/text_view_pokemon_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{pokemon.name}"/>
-
-        <TextView
-            android:id="@+id/text_view_pokemon_weight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{String.format(@string/pokemon_weight, pokemon.weight)}"/>
-
-        <TextView
-            android:id="@+id/text_view_pokemon_height"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{String.format(@string/pokemon_height, pokemon.height)}"/>
-
-        <TextView
-            android:id="@+id/text_view_pokemon_ability"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@{pokemon.abilities.get(0).ability.name}"/>
+            android:text="@{pokemon.name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/image_view_pokemon"
+            android:textSize="@dimen/detail_activity_text"
+            tools:text="Charizard" />
 
         <TextView
             android:id="@+id/text_view_pokemon_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{pokemon.types.get(0).type.name}"/>
-    </LinearLayout>
+            android:text="@{pokemon.types.get(0).type.name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/detail_activity_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_pokemon_name"
+            tools:text="Grass" />
+
+        <TextView
+            android:id="@+id/text_view_pokemon_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:text="@{String.format(@string/pokemon_weight, pokemon.weight)}"
+            app:layout_constraintEnd_toStartOf="@id/text_view_pokemon_height"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_pokemon_type"
+            tools:text="79" />
+
+        <TextView
+            android:id="@+id/text_view_pokemon_height"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:text="@{String.format(@string/pokemon_height, pokemon.height)}"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_pokemon_weight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_view_pokemon_weight"
+            app:layout_constraintTop_toTopOf="@+id/text_view_pokemon_weight"
+            tools:text="79" />
+
+        <TextView
+            android:id="@+id/text_view_pokemon_ability"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/detail_activity_text"
+            android:text="@{pokemon.abilities.get(0).ability.name}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_pokemon_weight"
+            tools:text="Grow" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
