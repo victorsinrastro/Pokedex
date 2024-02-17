@@ -3,6 +3,7 @@ package com.example.pokedex
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -17,17 +18,21 @@ class PokedexDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_pokedex_detail)
-        val toolbar = binding.toolbar
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setUpToolBar()
         val pokemonId = intent.getStringExtra(Constants.POKEMON_ID) ?: ""
         viewModel = ViewModelProvider(this)[PokedexDetailViewModel::class.java]
         viewModel.fetchPokemonById(pokemonId)
         setupObservers()
     }
 
+    private fun setUpToolBar() {
+        val toolbar = binding.toolbar as Toolbar?
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
     private fun setupObservers() {
-        viewModel.pokemon.observe(this) {pokemon ->
+        viewModel.pokemon.observe(this) { pokemon ->
             pokemon?.let {
                 binding.pokemon = it
                 loadPokemonImage(it.sprites.frontShiny)
