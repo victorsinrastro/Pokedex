@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="pokemon"
             type="com.example.pokedex.network.models.Pokemon" />
@@ -10,35 +12,35 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/lateral_margin"
-        android:layout_marginTop="@dimen/vertical_margin"
-        android:layout_marginRight="@dimen/lateral_margin"
-        android:layout_marginBottom="@dimen/vertical_margin">
+        android:layout_margin="@dimen/card_view_margin">
 
         <LinearLayout
             android:id="@+id/linear_layout_pokemon_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp"
-            android:weightSum="100">
+            android:orientation="vertical"
+            android:padding="@dimen/container_padding"
+            android:weightSum="100"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/content_description_pokemon_image"
+                android:paddingBottom="@dimen/image_padding_bottom"
+                tools:src="@mipmap/ic_launcher" />
 
             <TextView
                 android:id="@+id/text_view_pokemon_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="90"
                 android:text="@{pokemon.name}"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btPokemonDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:text="@string/delete" />
-
+                android:textAlignment="center"
+                android:textSize="@dimen/pokemon_name_text_size"
+                android:textStyle="bold"
+                tools:text="@string/default_pokemon_name" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>
