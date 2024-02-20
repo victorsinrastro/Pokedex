@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokedex.databinding.ActivityMainBinding
 import com.example.pokedex.pokemon.PokemonAdapter
 import com.example.pokedex.viewmodels.MainViewModel
@@ -41,10 +41,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        val adapter = PokemonAdapter(emptyList())
-        binding.pokemonAdapter = adapter
-        binding.recyclerViewPokemonList.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(this@MainActivity)
-        binding.recyclerViewPokemonList.layoutManager = layoutManager
+        val pokemonAdapter = PokemonAdapter(emptyList())
+        binding.apply {
+            binding.pokemonAdapter = pokemonAdapter
+            recyclerViewPokemonList.apply {
+                setHasFixedSize(true)
+                layoutManager = GridLayoutManager(this@MainActivity, 2)
+                adapter = pokemonAdapter
+            }
+        }
     }
 }

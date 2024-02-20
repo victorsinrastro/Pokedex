@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Pokedex</string>
-    <string name="default_pokemon_name">POKEMON</string>
-    <string name="delete">DELETE</string>
+    <string name="default_pokemon_name">Charmander</string>
     <string name="pokemon_image">Pokemon image</string>
     <string name="pokemon_weight">Weight: %d kg</string>
     <string name="pokemon_height">Height: %d m</string>
+    <string name="content_description_pokemon_image">Image showing %1$s, a %2$s-type Pokémon.</string>
 </resources>
