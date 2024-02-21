@@ -53,11 +53,11 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     testImplementation("junit:junit:4.13.2")
-    testImplementation ("org.mockito:mockito-core:3.12.4")
+    testImplementation ("org.mockito:mockito-core:5.2.0")
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
     implementation ("androidx.activity:activity-ktx:1.8.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
-    testImplementation ("org.robolectric:robolectric:4.9")
+    testImplementation ("org.robolectric:robolectric:4.11.1")
 }

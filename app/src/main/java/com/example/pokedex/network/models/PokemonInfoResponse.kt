@@ -2,7 +2,7 @@ package com.example.pokedex.network.models
 
 import com.google.gson.annotations.SerializedName
 
-data class PokemonByIdResponse(
+data class PokemonInfoResponse(
     @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String,
     @SerializedName("weight") val weight: Int,

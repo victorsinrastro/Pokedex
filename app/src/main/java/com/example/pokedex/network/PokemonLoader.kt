@@ -1,31 +1,31 @@
 package com.example.pokedex.network
 
-import com.example.pokedex.network.models.PokemonByIdResponse
-import com.example.pokedex.network.models.PokemonListResponse
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val URL_BASE = "https://pokeapi.co/api/v2/"
+private const val BASE_URL = "https://pokeapi.co/api/v2/"
 
 class PokemonLoader : PokemonAPI {
-    private val pokemonApi: PokemonAPI
-
-
-    init {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(URL_BASE)
+    val pokemonApi: PokemonAPI by lazy {
+        Retrofit.Builder()
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
-        pokemonApi = retrofit.create(PokemonAPI::class.java)
+            .create(PokemonAPI::class.java)
     }
 
-    override fun getPokemonList(): Call<PokemonListResponse> {
-        return pokemonApi.getPokemonList()
+    override suspend fun getPokemonList() = try {
+        pokemonApi.getPokemonList()
+    } catch (e: Exception) {
+        throw NetworkException("Failed to fetch Pokémon list", e)
     }
 
-    override fun getPokemonById(id: String): Call<PokemonByIdResponse> {
-        return pokemonApi.getPokemonById(id)
+    override suspend fun getPokemonInfo(name: String) = try {
+        pokemonApi.getPokemonInfo(name)
+    } catch (e: Exception) {
+        throw NetworkException("Failed to fetch Pokémon info for $name", e)
     }
 }
+
+class NetworkException(message: String, cause: Throwable) : Exception(message, cause)
+
