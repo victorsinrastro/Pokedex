@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.example.pokedex.databinding.ItemPokemonListBinding
 import com.example.pokedex.network.models.Pokemon
 
-class PokemonAdapter( var pokemonList: List<Pokemon>) :
+class PokemonAdapter(var pokemonList: List<Pokemon>) :
     Adapter<PokemonViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokemonViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -19,7 +19,7 @@ class PokemonAdapter( var pokemonList: List<Pokemon>) :
     }
 
     override fun onBindViewHolder(holder: PokemonViewHolder, position: Int) {
-        val pokemon = pokemonList[position]
-        holder.bind(pokemon)
+        val pokemon = pokemonList.getOrNull(position)
+        pokemon?.let { holder.bind(it) }
     }
 }

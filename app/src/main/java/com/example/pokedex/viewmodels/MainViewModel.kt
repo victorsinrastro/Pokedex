@@ -3,12 +3,13 @@ package com.example.pokedex.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.pokedex.network.PokemonLoader
 import com.example.pokedex.network.models.Pokemon
-import com.example.pokedex.network.models.PokemonListResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class MainViewModel : ViewModel() {
     private val loader = PokemonLoader()
@@ -24,26 +25,20 @@ class MainViewModel : ViewModel() {
     }
 
     private fun fetchPokemonList() {
-        _isLoading.value = true
-
-        val call = loader.getPokemonList()
-        call.enqueue(object : Callback<PokemonListResponse> {
-            override fun onResponse(
-                call: Call<PokemonListResponse>,
-                response: Response<PokemonListResponse>
-            ) {
-                _isLoading.value = false
-                if (response.isSuccessful) {
-                    _pokemonList.value = response.body()?.pokemonList
-                } else {
-                    _errorMessage.value = "Error fetching Pokemon data"
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                val pokemonListResponse = withContext(Dispatchers.IO) {
+                    loader.getPokemonList()
                 }
-            }
-
-            override fun onFailure(call: Call<PokemonListResponse>, t: Throwable) {
+                _pokemonList.value = pokemonListResponse.pokemonList
+            } catch (e: HttpException) {
+                _errorMessage.value = "Error fetching Pokemon List: ${e.message()}"
+            } catch (e: Exception) {
+                _errorMessage.value = "Unknown error: ${e.message}"
+            } finally {
                 _isLoading.value = false
-                _errorMessage.value = t.message ?: "Unknown error"
             }
-        })
+        }
     }
 }

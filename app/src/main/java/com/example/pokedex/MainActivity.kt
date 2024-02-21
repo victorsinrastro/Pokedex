@@ -12,28 +12,28 @@ import com.example.pokedex.pokemon.PokemonAdapter
 import com.example.pokedex.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
+    private lateinit var mainBinding: ActivityMainBinding
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        setSupportActionBar(binding.toolbar as Toolbar?)
-        viewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        setupObservers()
+        mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        setSupportActionBar(mainBinding.toolbar as Toolbar?)
+        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+        observeViewModel()
         setupRecyclerView()
     }
 
-    private fun setupObservers() {
-        viewModel.pokemonList.observe(this) { pokemonList ->
-            binding.pokemonAdapter?.pokemonList = pokemonList
+    private fun observeViewModel() {
+        mainViewModel.pokemonList.observe(this) { pokemonList ->
+            mainBinding.pokemonAdapter?.pokemonList = pokemonList
         }
 
-        viewModel.isLoading.observe(this) { isLoading ->
-            binding.progressBarVisibility = isLoading
+        mainViewModel.isLoading.observe(this) { isLoading ->
+            mainBinding.progressBarVisibility = isLoading
         }
 
-        viewModel.errorMessage.observe(this) { errorMessage ->
+        mainViewModel.errorMessage.observe(this) { errorMessage ->
             if (errorMessage != null) {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             }
@@ -42,8 +42,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         val pokemonAdapter = PokemonAdapter(emptyList())
-        binding.apply {
-            binding.pokemonAdapter = pokemonAdapter
+        mainBinding.apply {
+            mainBinding.pokemonAdapter = pokemonAdapter
             recyclerViewPokemonList.apply {
                 setHasFixedSize(true)
                 layoutManager = GridLayoutManager(this@MainActivity, 2)

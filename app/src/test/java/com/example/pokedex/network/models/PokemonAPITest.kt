@@ -1,33 +1,32 @@
 package com.example.pokedex.network.models
 
 import com.example.pokedex.network.PokemonAPI
+import com.example.pokedex.network.PokemonLoader
+import org.junit.Assert.assertNotNull
+import kotlinx.coroutines.runBlocking
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
-import retrofit2.Call
-import retrofit2.Response
 
 @RunWith(MockitoJUnitRunner::class)
 class PokemonAPITest {
 
-    @Mock
-    lateinit var mockCall: Call<PokemonListResponse>
-
-    private lateinit var pokemonAPI: PokemonAPI
+    private val pokemonAPI: PokemonAPI = PokemonLoader().pokemonApi
 
     @Test
     fun testGetPokemonList_Success() {
-        // Mock a successful response from the API
-        val mockResponse = Response.success(PokemonListResponse())
-        `when`(mockCall.execute()).thenReturn(mockResponse)
-        pokemonAPI = object : PokemonAPI {
-            override fun getPokemonList(): Call<PokemonListResponse> {
-                return mockCall
-            }
+        runBlocking {
+            val pokemonListResponse = pokemonAPI.getPokemonList()
+            assertNotNull(pokemonListResponse)
         }
-        val response = pokemonAPI.getPokemonList().execute()
-        assert(response.isSuccessful)
+    }
+
+    @Test
+    fun testGetPokemonInfo_Success() {
+        runBlocking {
+            val pokemonName = "charmander"
+            val pokemonInfoResponse = pokemonAPI.getPokemonInfo(pokemonName)
+            assertNotNull(pokemonInfoResponse)
+        }
     }
 }

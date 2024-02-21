@@ -9,36 +9,36 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.pokedex.databinding.ActivityPokedexDetailBinding
 import com.example.pokedex.utils.Constants
-import com.example.pokedex.viewmodels.PokedexDetailViewModel
+import com.example.pokedex.viewmodels.PokemonInfoViewModel
 
-class PokedexDetailActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityPokedexDetailBinding
-    private lateinit var viewModel: PokedexDetailViewModel
+class PokemonInfoActivity : AppCompatActivity() {
+    private lateinit var detailBinding: ActivityPokedexDetailBinding
+    private lateinit var pokemonInfoViewModel: PokemonInfoViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_pokedex_detail)
+        detailBinding = DataBindingUtil.setContentView(this, R.layout.activity_pokedex_detail)
         setUpToolBar()
-        val pokemonId = intent.getStringExtra(Constants.POKEMON_ID) ?: ""
-        viewModel = ViewModelProvider(this)[PokedexDetailViewModel::class.java]
-        viewModel.fetchPokemonById(pokemonId)
-        setupObservers()
+        val pokemonName = intent.getStringExtra(Constants.POKEMON_NAME) ?: ""
+        pokemonInfoViewModel = ViewModelProvider(this)[PokemonInfoViewModel::class.java]
+        pokemonInfoViewModel.fetchPokemonByName(pokemonName)
+        observeViewModel()
     }
 
     private fun setUpToolBar() {
-        val toolbar = binding.toolbar as Toolbar?
+        val toolbar = detailBinding.toolbar as Toolbar?
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun setupObservers() {
-        viewModel.pokemon.observe(this) { pokemon ->
+    private fun observeViewModel() {
+        pokemonInfoViewModel.pokemon.observe(this) { pokemon ->
             pokemon?.let {
-                binding.pokemon = it
+                detailBinding.pokemon = it
                 loadPokemonImage(it.sprites.frontShiny)
             }
         }
-        viewModel.errorMessage.observe(this) { errorMessage ->
+        pokemonInfoViewModel.errorMessage.observe(this) { errorMessage ->
             errorMessage?.let {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             }
@@ -46,9 +46,9 @@ class PokedexDetailActivity : AppCompatActivity() {
     }
 
     private fun loadPokemonImage(imageUrl: String) {
-        Glide.with(this@PokedexDetailActivity)
+        Glide.with(this@PokemonInfoActivity)
             .load(imageUrl)
-            .into(binding.imageViewPokemon)
+            .into(detailBinding.imageViewPokemon)
     }
 
     override fun onSupportNavigateUp(): Boolean {
