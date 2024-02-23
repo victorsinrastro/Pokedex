@@ -7,5 +7,5 @@ data class Pokemon(
     val height: Int,
     val abilities: List<Abilities>,
     val types: List<Types>,
-    val imageUrl: String
+    var imageUrl: String
 )

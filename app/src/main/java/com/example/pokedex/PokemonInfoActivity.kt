@@ -35,7 +35,7 @@ class PokemonInfoActivity : AppCompatActivity() {
         pokemonInfoViewModel.pokemon.observe(this) { pokemon ->
             pokemon?.let {
                 detailBinding.pokemon = it
-                loadPokemonImage(it.sprites.frontShiny)
+                loadPokemonImage(it.sprites.other.officialArtwork.frontShiny)
             }
         }
         pokemonInfoViewModel.errorMessage.observe(this) { errorMessage ->

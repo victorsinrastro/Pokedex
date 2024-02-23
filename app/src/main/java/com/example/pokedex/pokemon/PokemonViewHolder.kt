@@ -2,6 +2,7 @@ package com.example.pokedex.pokemon
 
 import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
 import com.example.pokedex.PokemonInfoActivity
 import com.example.pokedex.databinding.ItemPokemonListBinding
 import com.example.pokedex.network.models.Pokemon
@@ -16,6 +17,9 @@ class PokemonViewHolder(private val binding: ItemPokemonListBinding) : ViewHolde
                 intent.putExtra(Constants.POKEMON_NAME, pokemon.name)
                 root.context.startActivity(intent)
             }
+            Glide.with(root)
+                .load(pokemon.imageUrl)
+                .into(imageViewPokemon)
         }
         binding.executePendingBindings()
     }
