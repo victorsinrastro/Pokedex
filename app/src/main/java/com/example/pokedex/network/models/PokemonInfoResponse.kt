@@ -29,5 +29,13 @@ data class Type(
 )
 
 data class Sprites(
+    @SerializedName("other") val other: OtherSprites
+)
+
+data class OtherSprites(
+    @SerializedName("official-artwork") val officialArtwork: OfficialArtwork
+)
+
+data class OfficialArtwork(
     @SerializedName("front_shiny") val frontShiny: String
 )

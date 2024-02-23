@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.pokedex.network.PokemonLoader
 import com.example.pokedex.network.models.Pokemon
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -31,7 +33,14 @@ class MainViewModel : ViewModel() {
                 val pokemonListResponse = withContext(Dispatchers.IO) {
                     loader.getPokemonList()
                 }
-                _pokemonList.value = pokemonListResponse.pokemonList
+                val updatedPokemonList = pokemonListResponse.pokemonList.map { pokemon ->
+                    async(Dispatchers.IO) {
+                        val pokemonInfo = loader.getPokemonInfo(pokemon.name)
+                        pokemon.imageUrl = pokemonInfo.sprites.other.officialArtwork.frontShiny
+                        pokemon
+                    }
+                }.awaitAll()
+                _pokemonList.value = updatedPokemonList
             } catch (e: HttpException) {
                 _errorMessage.value = "Error fetching Pokemon List: ${e.message()}"
             } catch (e: Exception) {
