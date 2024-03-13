@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,7 +13,10 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/card_view_margin">
+        android:layout_margin="@dimen/card_view_margin"
+        android:backgroundTint="@color/background_light_grey"
+        app:cardCornerRadius="10dp"
+        tools:backgroundtint="@color/grey">
 
         <LinearLayout
             android:id="@+id/linear_layout_pokemon_container"
@@ -20,25 +24,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/container_padding"
-            android:weightSum="100"
-            tools:ignore="UseCompoundDrawables">
+            android:weightSum="100">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_view_pokemon"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:contentDescription="@string/content_description_pokemon_image"
+                android:background="@color/pokemon_blue"
+                android:contentDescription="@{@string/content_description_pokemon_image(pokemon.name,pokemon.types[0])}"
                 android:paddingBottom="@dimen/image_padding_bottom"
-                tools:src="@mipmap/ic_launcher" />
+                app:shapeAppearanceOverlay="@style/roundedCorner"
+                tools:background="@color/pokemon_blue"
+                tools:src="@drawable/default_pokemon_image" />
 
             <TextView
                 android:id="@+id/text_view_pokemon_name"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="90"
-                android:text="@{pokemon.name}"
+                android:text="@{@string/pokemon_name_format(pokemon.id, pokemon.name)}"
                 android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="@dimen/pokemon_name_text_size"
                 android:textStyle="bold"
                 tools:text="@string/default_pokemon_name" />

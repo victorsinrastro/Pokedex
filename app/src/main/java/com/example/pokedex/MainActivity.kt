@@ -1,5 +1,6 @@
 package com.example.pokedex
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,9 +25,11 @@ class MainActivity : AppCompatActivity() {
         setupRecyclerView()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun observeViewModel() {
         mainViewModel.pokemonList.observe(this) { pokemonList ->
             mainBinding.pokemonAdapter?.pokemonList = pokemonList
+            mainBinding.pokemonAdapter?.notifyDataSetChanged()
         }
 
         mainViewModel.isLoading.observe(this) { isLoading ->
@@ -44,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         val pokemonAdapter = PokemonAdapter(emptyList())
         mainBinding.apply {
             mainBinding.pokemonAdapter = pokemonAdapter
-            recyclerViewPokemonList.apply {
+            recyclerViewPokemons.apply {
                 setHasFixedSize(true)
                 layoutManager = GridLayoutManager(this@MainActivity, 2)
                 adapter = pokemonAdapter

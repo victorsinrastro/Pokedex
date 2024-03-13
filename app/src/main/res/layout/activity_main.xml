@@ -17,29 +17,42 @@
 
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         tools:context=".MainActivity">
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar" />
+            layout="@layout/toolbar"
+            android:contentDescription="@string/toolbar_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{progressBarVisibility ? View.VISIBLE : View.GONE}" />
+            android:contentDescription="@string/progress_bar_description"
+            android:indeterminateDrawable="@drawable/pokeball_progress_bar"
+            android:visibility="@{progressBarVisibility ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewPokemonList"
+            android:id="@+id/recyclerViewPokemons"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:adapter="@{pokemonAdapter}">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="0dp"
+            android:contentDescription="@string/recycler_view_description"
+            app:adapter="@{pokemonAdapter}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

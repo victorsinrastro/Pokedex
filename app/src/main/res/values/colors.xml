@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Basic Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary Colors -->
+    <color name="color_primary">#cc322a</color>
+
+    <!-- Background Colors -->
+    <color name="color_background_light">#b45c64</color>
+    <color name="background_light_grey">#a7b9d3</color>
+
+    <!-- Pokemon Colors -->
+    <color name="pokemon_blue">#3B4CCA</color>
+    <color name="pokemon_yellow">#FFDE00</color>
 </resources>
