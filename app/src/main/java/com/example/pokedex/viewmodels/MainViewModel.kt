@@ -12,6 +12,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+import java.io.IOException
 
 class MainViewModel : ViewModel() {
     private val loader = PokemonLoader()
@@ -37,14 +38,17 @@ class MainViewModel : ViewModel() {
                     async(Dispatchers.IO) {
                         val pokemonInfo = loader.getPokemonInfo(pokemon.name)
                         pokemon.imageUrl = pokemonInfo.sprites.other.officialArtwork.frontShiny
+                        pokemon.id = pokemonInfo.id
                         pokemon
                     }
                 }.awaitAll()
                 _pokemonList.value = updatedPokemonList
             } catch (e: HttpException) {
                 _errorMessage.value = "Error fetching Pokemon List: ${e.message()}"
+            } catch (e: IOException) {
+                _errorMessage.value = "Network error. Please check your connection."
             } catch (e: Exception) {
-                _errorMessage.value = "Unknown error: ${e.message}"
+                _errorMessage.value = "Something went wrong. Please try again later."
             } finally {
                 _isLoading.value = false
             }
