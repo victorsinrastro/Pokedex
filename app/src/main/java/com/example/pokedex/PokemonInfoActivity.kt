@@ -9,9 +9,11 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.example.pokedex.database.PokemonDatabase
 import com.example.pokedex.databinding.ActivityPokemonInfoBinding
 import com.example.pokedex.utils.Constants
 import com.example.pokedex.viewmodels.PokemonInfoViewModel
+import com.example.pokedex.viewmodels.PokemonInfoViewModelFactory
 
 class PokemonInfoActivity : AppCompatActivity() {
     private lateinit var detailBinding: ActivityPokemonInfoBinding
@@ -22,7 +24,8 @@ class PokemonInfoActivity : AppCompatActivity() {
         detailBinding = DataBindingUtil.setContentView(this, R.layout.activity_pokemon_info)
         val pokemonName = intent.getStringExtra(Constants.POKEMON_NAME) ?: ""
         setUpToolBar(pokemonName)
-        pokemonInfoViewModel = ViewModelProvider(this)[PokemonInfoViewModel::class.java]
+        val database = PokemonDatabase.getDatabase(this)
+        pokemonInfoViewModel = ViewModelProvider(this,PokemonInfoViewModelFactory(database))[PokemonInfoViewModel::class.java]
         pokemonInfoViewModel.fetchPokemonByName(pokemonName)
         observeViewModel()
     }
@@ -42,7 +45,7 @@ class PokemonInfoActivity : AppCompatActivity() {
         pokemonInfoViewModel.pokemon.observe(this) { pokemon ->
             pokemon?.let {
                 detailBinding.pokemon = it
-                loadPokemonImage(it.sprites.other.officialArtwork.frontShiny)
+                loadPokemonImage(it.imageUrl)
             }
         }
         pokemonInfoViewModel.errorMessage.observe(this) { errorMessage ->

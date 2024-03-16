@@ -8,9 +8,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.pokedex.database.PokemonDatabase
 import com.example.pokedex.databinding.ActivityMainBinding
+import com.example.pokedex.network.PokemonLoader
 import com.example.pokedex.pokemon.PokemonAdapter
 import com.example.pokedex.viewmodels.MainViewModel
+import com.example.pokedex.viewmodels.MainViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mainBinding: ActivityMainBinding
@@ -20,7 +23,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         setSupportActionBar(mainBinding.toolbar as Toolbar?)
-        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        val pokemonLoader = PokemonLoader()
+        val database = PokemonDatabase.getDatabase(this)
+        mainViewModel = ViewModelProvider(
+            this,
+            MainViewModelFactory(pokemonLoader, database)
+        )[MainViewModel::class.java]
+
         observeViewModel()
         setupRecyclerView()
     }

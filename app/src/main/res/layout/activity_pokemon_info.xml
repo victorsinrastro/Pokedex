@@ -7,7 +7,7 @@
 
         <variable
             name="pokemon"
-            type="com.example.pokedex.network.models.PokemonInfoResponse" />
+            type="com.example.pokedex.network.models.Pokemon" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
