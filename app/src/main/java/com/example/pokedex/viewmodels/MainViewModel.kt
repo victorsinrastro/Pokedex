@@ -1,25 +1,27 @@
 package com.example.pokedex.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pokedex.database.PokemonDatabase
 import com.example.pokedex.network.PokemonLoader
 import com.example.pokedex.network.models.Pokemon
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
-class MainViewModel : ViewModel() {
-    private val loader = PokemonLoader()
+class MainViewModel(private val loader: PokemonLoader, private val database: PokemonDatabase) :
+    ViewModel() {
     private val _pokemonList = MutableLiveData<List<Pokemon>>()
     val pokemonList: LiveData<List<Pokemon>> = _pokemonList
+
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
+
     private val _errorMessage = MutableLiveData<String?>(null)
     val errorMessage: LiveData<String?> = _errorMessage
 
@@ -31,26 +33,59 @@ class MainViewModel : ViewModel() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
-                val pokemonListResponse = withContext(Dispatchers.IO) {
-                    loader.getPokemonList()
+                val cachedPokemon = getCachedPokemon()
+                if (cachedPokemon.isNotEmpty()) {
+                    _pokemonList.value = cachedPokemon
+                } else {
+                    val updatedPokemonList = fetchPokemonFromNetwork()
+                    _pokemonList.value = updatedPokemonList
+                    insertPokemonToDatabase(updatedPokemonList)
                 }
-                val updatedPokemonList = pokemonListResponse.pokemonList.map { pokemon ->
-                    async(Dispatchers.IO) {
-                        val pokemonInfo = loader.getPokemonInfo(pokemon.name)
-                        pokemon.imageUrl = pokemonInfo.sprites.other.officialArtwork.frontShiny
-                        pokemon.id = pokemonInfo.id
-                        pokemon
-                    }
-                }.awaitAll()
-                _pokemonList.value = updatedPokemonList
-            } catch (e: HttpException) {
-                _errorMessage.value = "Error fetching Pokemon List: ${e.message()}"
-            } catch (e: IOException) {
-                _errorMessage.value = "Network error. Please check your connection."
             } catch (e: Exception) {
-                _errorMessage.value = "Something went wrong. Please try again later."
+                handleNetworkError(e)
             } finally {
                 _isLoading.value = false
+            }
+        }
+    }
+
+    private suspend fun getCachedPokemon(): List<Pokemon> {
+        return withContext(Dispatchers.IO) {
+            database.pokemonDao().getAllPokemon()
+        }
+    }
+
+    private suspend fun fetchPokemonFromNetwork(): List<Pokemon> {
+        return withContext(Dispatchers.IO) {
+            val pokemonListResponse = loader.getPokemonList()
+            pokemonListResponse.pokemonList.map { pokemon ->
+                val pokemonInfo = loader.getPokemonInfo(pokemon.name)
+                pokemon.apply {
+                    imageUrl = pokemonInfo.sprites.other.officialArtwork.frontShiny
+                    id = pokemonInfo.id
+                    abilities = pokemonInfo.abilities
+                    types = pokemonInfo.types
+                    weight = pokemonInfo.weight
+                    height = pokemonInfo.height
+                }
+            }
+        }
+    }
+
+    private suspend fun insertPokemonToDatabase(pokemonList: List<Pokemon>) {
+        withContext(Dispatchers.IO) {
+            database.pokemonDao().insertAll(pokemonList)
+        }
+    }
+
+    private fun handleNetworkError(e: Exception) {
+        when (e) {
+            is HttpException -> _errorMessage.value = "Error fetching Pokémon list: ${e.message()}"
+            is IOException -> _errorMessage.value = "Network error. Please check your connection."
+            else -> {
+                _errorMessage.value =
+                    "Something went wrong. Please try again later. ${e.localizedMessage}"
+                Log.e("MainViewModel", "fetchPokemonList: ${e.message}", e)
             }
         }
     }
