@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -8,7 +9,7 @@
         <import type="android.view.View" />
 
         <variable
-            name="progressBarVisibility"
+            name="isProgressBarVisible"
             type="Boolean" />
 
         <variable
@@ -36,7 +37,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/progress_bar_description"
             android:indeterminateDrawable="@drawable/pokeball_progress_bar"
-            android:visibility="@{progressBarVisibility ? View.VISIBLE : View.GONE}"
+            android:visibility="@{isProgressBarVisible ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -52,6 +53,35 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="@{isProgressBarVisible ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            shimmer:duration="100">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/data_place_holder_layout" />
+
+                <include layout="@layout/data_place_holder_layout" />
+
+                <include layout="@layout/data_place_holder_layout" />
+
+                <include layout="@layout/data_place_holder_layout" />
+
+                <include layout="@layout/data_place_holder_layout" />
+            </LinearLayout>
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

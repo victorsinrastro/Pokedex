@@ -56,6 +56,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.gridlayout:gridlayout:1.0.0")
 
     // Retrofit and Gson
     implementation("com.google.code.gson:gson:2.10.1")
@@ -75,4 +76,7 @@ dependencies {
     // Kotlin Symbol Processing for Room
     //noinspection KaptUsageInsteadOfKsp
     kapt("androidx.room:room-compiler:2.6.1")
+
+    // Shimmer library
+    implementation("com.facebook.shimmer:shimmer:0.5.0")
 }

@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainViewModel.isLoading.observe(this) { isLoading ->
-            mainBinding.progressBarVisibility = isLoading
+            mainBinding.isProgressBarVisible = isLoading
+            if (isLoading) mainBinding.shimmerViewContainer.startShimmer() else mainBinding.shimmerViewContainer.stopShimmer()
         }
 
         mainViewModel.errorMessage.observe(this) { errorMessage ->
