@@ -5,10 +5,11 @@
     <string name="pokemon_weight_kg">%d kg</string>
     <string name="pokemon_height_m">%d m</string>
     <string name="content_description_pokemon_image">Image showing %1$s, a %2$s-type Pokémon.</string>
-    <string name="pokemon_height_title">Height</string>
-    <string name="pokemon_weight_title">Weight</string>
+    <string name="pokemon_height_title">Height:</string>
+    <string name="pokemon_weight_title">Weight:</string>
     <string name="pokemon_name_format">%1$s - %2$s</string>
     <string name="toolbar_description">Main Toolbar</string>
     <string name="progress_bar_description">Loading progress indicator</string>
     <string name="recycler_view_description">List of Pokemon</string>
+    <string name="pokemon_abilities_label">Abilities</string>
 </resources>

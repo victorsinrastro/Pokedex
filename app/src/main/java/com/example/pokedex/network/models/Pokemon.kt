@@ -14,7 +14,8 @@ data class Pokemon(
     var height: Int,
     var abilities: List<Abilities>,
     var types: List<Types>,
-    var imageUrl: String
+    var imageUrl: String,
+    var stats: List<Stats>
 ) {
     init {
         require(id >= 0) { "ID must be non-negative" }

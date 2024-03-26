@@ -2,6 +2,7 @@ package com.example.pokedex.database
 
 import androidx.room.TypeConverter
 import com.example.pokedex.network.models.Abilities
+import com.example.pokedex.network.models.Stats
 import com.example.pokedex.network.models.Types
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -30,6 +31,18 @@ class Converters {
     fun jsonToTypesList(json: String): List<Types>? {
         return json.let {
             gson.fromJson(json, object : TypeToken<List<Types>>() {}.type)
+        }
+    }
+
+    @TypeConverter
+    fun statsListToJson(stats: List<Stats>): String? {
+        return stats.let { gson.toJson(it) }
+    }
+
+    @TypeConverter
+    fun jsonToStatsList(json: String): List<Stats>? {
+        return json.let {
+            gson.fromJson(json, object : TypeToken<List<Stats>>() {}.type)
         }
     }
 }

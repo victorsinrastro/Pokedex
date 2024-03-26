@@ -67,6 +67,7 @@ class MainViewModel(private val loader: PokemonLoader, private val database: Pok
                     types = pokemonInfo.types
                     weight = pokemonInfo.weight
                     height = pokemonInfo.height
+                    stats = pokemonInfo.stats
                 }
             }
         }

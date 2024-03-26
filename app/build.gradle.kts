@@ -79,4 +79,7 @@ dependencies {
 
     // Shimmer library
     implementation("com.facebook.shimmer:shimmer:0.5.0")
+
+    // chart library
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }

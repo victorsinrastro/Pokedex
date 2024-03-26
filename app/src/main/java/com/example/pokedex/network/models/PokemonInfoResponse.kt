@@ -9,7 +9,8 @@ data class PokemonInfoResponse(
     @SerializedName("height") val height: Int,
     @SerializedName("abilities") val abilities: List<Abilities>,
     @SerializedName("types") val types: List<Types>,
-    @SerializedName("sprites") val sprites: Sprites
+    @SerializedName("sprites") val sprites: Sprites,
+    @SerializedName("stats") val stats: List<Stats>
 )
 
 data class Abilities(
@@ -38,4 +39,13 @@ data class OtherSprites(
 
 data class OfficialArtwork(
     @SerializedName("front_shiny") val frontShiny: String
+)
+
+data class Stats(
+    @SerializedName("stat") val stat: Stat,
+    @SerializedName("base_stat") val baseStat: String
+)
+
+data class Stat(
+    @SerializedName("name") val name: String
 )
