@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- Toolbar -->
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
@@ -47,6 +48,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/abilities_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/card_view_margin"
@@ -68,7 +70,8 @@
                     android:padding="@dimen/container_padding"
                     android:text="@string/pokemon_height_title"
                     android:textColor="@color/white"
-                    android:textSize="28sp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@id/text_view_pokemon_height"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,10 +83,11 @@
                     android:padding="@dimen/container_padding"
                     android:text="@{String.format(@string/pokemon_height_m, pokemon.height)}"
                     android:textColor="@color/black"
-                    android:textSize="28sp"
-                    app:layout_constraintEnd_toEndOf="@id/text_view_pokemon_height_label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_view_pokemon_height_label"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+
+                    app:layout_constraintStart_toEndOf="@+id/text_view_pokemon_height_label"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="79" />
 
                 <TextView
@@ -94,9 +98,10 @@
                     android:padding="@dimen/container_padding"
                     android:text="@string/pokemon_weight_title"
                     android:textColor="@color/white"
-                    android:textSize="28sp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@id/text_view_pokemon_weight"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_view_pokemon_height" />
+                    app:layout_constraintTop_toBottomOf="@id/text_view_pokemon_height_label" />
 
                 <TextView
                     android:id="@+id/text_view_pokemon_weight"
@@ -106,15 +111,81 @@
                     android:padding="@dimen/container_padding"
                     android:text="@{String.format(@string/pokemon_weight_kg, pokemon.weight)}"
                     android:textColor="@color/black"
-                    android:textSize="28sp"
-                    app:layout_constraintEnd_toEndOf="@id/text_view_pokemon_weight_label"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_pokemon_weight_label"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+                    app:layout_constraintStart_toEndOf="@id/text_view_pokemon_weight_label"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_pokemon_height"
                     tools:text="79" />
+
+                <TextView
+                    android:id="@+id/text_view_pokemon_abilities_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/container_padding"
+                    android:text="@string/pokemon_abilities_label"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/text_view_pokemon_height"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/text_view_pokemon_weight"
+                    app:layout_constraintTop_toBottomOf="@id/text_view_pokemon_abilities_label">
+
+                    <TextView
+                        android:id="@+id/text_view_pokemon_first_ability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/container_padding"
+                        android:text="@{pokemon.abilities.size() > 0 ? pokemon.abilities[0].ability.name : ``}"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        tools:text="overgrow" />
+
+                    <TextView
+                        android:id="@+id/text_view_pokemon_second_ability"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:padding="@dimen/container_padding"
+                        android:text="@{pokemon.abilities.size() > 1 ? pokemon.abilities[1].ability.name : ``}"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        tools:text="overgrow" />
+
+                </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/pokemon_stats_bar_chart_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/card_view_margin"
+            android:backgroundTint="@color/background_light_grey"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/abilities_card_view"
+            tools:backgroundtint="@color/grey">
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/pokemon_stats_bar_chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.cardview.widget.CardView>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

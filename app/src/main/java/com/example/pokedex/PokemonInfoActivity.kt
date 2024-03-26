@@ -11,13 +11,23 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.pokedex.database.PokemonDatabase
 import com.example.pokedex.databinding.ActivityPokemonInfoBinding
+import com.example.pokedex.network.models.Stats
 import com.example.pokedex.utils.Constants
 import com.example.pokedex.viewmodels.PokemonInfoViewModel
 import com.example.pokedex.viewmodels.PokemonInfoViewModelFactory
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
+
 
 class PokemonInfoActivity : AppCompatActivity() {
     private lateinit var detailBinding: ActivityPokemonInfoBinding
     private lateinit var pokemonInfoViewModel: PokemonInfoViewModel
+    private var barEntries = ArrayList<BarEntry>()
+    private val POKEMON_STATS_NAMES = listOf("HP","ATTACK","DEF","SP-ATK","SP-DEF","SPEED")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +56,7 @@ class PokemonInfoActivity : AppCompatActivity() {
             pokemon?.let {
                 detailBinding.pokemon = it
                 loadPokemonImage(it.imageUrl)
+                setUpBarChart(it.stats)
             }
         }
         pokemonInfoViewModel.errorMessage.observe(this) { errorMessage ->
@@ -53,6 +64,29 @@ class PokemonInfoActivity : AppCompatActivity() {
                 Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun setUpBarChart(stats: List<Stats>) {
+        stats.forEachIndexed { index, stat ->
+            barEntries.add(BarEntry(index.toFloat(), stat.baseStat.toFloat()))
+        }
+        val barDataSet = BarDataSet(barEntries, "")
+        barDataSet.colors = ColorTemplate.MATERIAL_COLORS.toList()
+
+        detailBinding.pokemonStatsBarChart.data = BarData(barDataSet)
+        detailBinding.pokemonStatsBarChart.xAxis.valueFormatter =
+            IndexAxisValueFormatter(POKEMON_STATS_NAMES)
+        detailBinding.pokemonStatsBarChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        detailBinding.pokemonStatsBarChart.setFitBars(true)
+        detailBinding.pokemonStatsBarChart.axisRight.isEnabled = false
+        detailBinding.pokemonStatsBarChart.description.isEnabled = false
+        detailBinding.pokemonStatsBarChart.axisLeft.axisMinimum = 0f
+        detailBinding.pokemonStatsBarChart.invalidate()
+
+        detailBinding.pokemonStatsBarChart.xAxis.setDrawGridLines(false)
+        detailBinding.pokemonStatsBarChart.axisLeft.setDrawGridLines(false)
+        detailBinding.pokemonStatsBarChart.axisLeft.isEnabled = false
+        detailBinding.pokemonStatsBarChart.legend.isEnabled = false
     }
 
     private fun loadPokemonImage(imageUrl: String) {
