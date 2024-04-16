@@ -14,4 +14,13 @@
     <!-- Pokemon Colors -->
     <color name="pokemon_blue">#3B4CCA</color>
     <color name="pokemon_yellow">#FFDE00</color>
+
+    <!-- Pokemon Type Colors -->
+    <color name="pokemon_grass">#40b088</color>
+    <color name="pokemon_poison">#730bdd</color>
+    <color name="pokemon_fire">#ec8146</color>
+    <color name="pokemon_flying">#A98FF3</color>
+    <color name="pokemon_water">#6390F0</color>
+    <color name="pokemon_bug">#A6B91A</color>
+    <color name="pokemon_normal">#A8A77A</color>
 </resources>
